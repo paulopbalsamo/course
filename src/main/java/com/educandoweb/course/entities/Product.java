@@ -11,7 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
 @Table(name = "tb_product")
@@ -31,7 +34,10 @@ public class Product implements Serializable {
 	@JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
 	private Set<Category> categories = new HashSet<>(); // usou o set pra garantir que nao tenha repetido na coleção ,
 														// instanciou pra nao começar vazio
-
+	@OneToMany(mappedBy = "id.product")
+	private Set<OrderItem> items = new HashSet<>();
+	
+	
 	public Product() {
 
 	}
@@ -90,6 +96,16 @@ public class Product implements Serializable {
 		this.imgUrl = imgUrl;
 	}
 
+	@JsonIgnore
+	public Set<Order> getOrders(){
+		Set<Order> set = new HashSet<>();
+		for (OrderItem x : items) {
+			set.add(x.getOrder());
+		}
+		return set;
+	}
+	
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
