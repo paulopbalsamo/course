@@ -6,24 +6,24 @@ import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
 import javax.persistence.Table;
 
-import com.educandoweb.course.entities.pk.OrderItemPk;
+import com.educandoweb.course.entities.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 @Entity
-@Table(name = "tb_ordem_item")
-public class OrdemItem implements Serializable {
-
+@Table(name = "tb_order_item")
+public class OrderItem implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@EmbeddedId
-	private OrderItemPk id;
+	private OrderItemPK id = new OrderItemPK();
+	
 	private Integer quantity;
 	private Double price;
-
-	public OrdemItem() {
-
+	
+	public OrderItem() {
 	}
 
-	public OrdemItem(Order order, Product product, Integer quantity, Double price) {
+	public OrderItem(Order order, Product product, Integer quantity, Double price) {
 		super();
 		id.setOrder(order);
 		id.setProduct(product);
@@ -31,10 +31,11 @@ public class OrdemItem implements Serializable {
 		this.price = price;
 	}
 
+	@JsonIgnore
 	public Order getOrder() {
 		return id.getOrder();
 	}
-
+	
 	public void setOrder(Order order) {
 		id.setOrder(order);
 	}
@@ -47,15 +48,6 @@ public class OrdemItem implements Serializable {
 		id.setProduct(product);
 	}
 	
-
-	public OrderItemPk getId() {
-		return id;
-	}
-
-	public void setId(OrderItemPk id) {
-		this.id = id;
-	}
-
 	public Integer getQuantity() {
 		return quantity;
 	}
@@ -72,10 +64,10 @@ public class OrdemItem implements Serializable {
 		this.price = price;
 	}
 
-	public static long getSerialversionuid() {
-		return serialVersionUID;
+	public Double getSubTotal() {
+		return price * quantity;
 	}
-
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -92,7 +84,7 @@ public class OrdemItem implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrdemItem other = (OrdemItem) obj;
+		OrderItem other = (OrderItem) obj;
 		if (id == null) {
 			if (other.id != null)
 				return false;
@@ -100,5 +92,4 @@ public class OrdemItem implements Serializable {
 			return false;
 		return true;
 	}
-
 }

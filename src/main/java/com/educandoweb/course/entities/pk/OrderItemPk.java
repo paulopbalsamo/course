@@ -10,14 +10,13 @@ import com.educandoweb.course.entities.Order;
 import com.educandoweb.course.entities.Product;
 
 @Embeddable
-public class OrderItemPk implements Serializable {
-
+public class OrderItemPK implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	@ManyToOne
 	@JoinColumn(name = "order_id")
 	private Order order;
-	
+
 	@ManyToOne
 	@JoinColumn(name = "product_id")
 	private Product product;
@@ -55,7 +54,7 @@ public class OrderItemPk implements Serializable {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		OrderItemPk other = (OrderItemPk) obj;
+		OrderItemPK other = (OrderItemPK) obj;
 		if (order == null) {
 			if (other.order != null)
 				return false;
@@ -68,5 +67,4 @@ public class OrderItemPk implements Serializable {
 			return false;
 		return true;
 	}
-
 }
