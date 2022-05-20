@@ -30,4 +30,8 @@ public class UserService {
 		
 	}
 	
+	public void delete(Long Id) {
+		repository.deleteById(Id);
+	}
+	
 }
